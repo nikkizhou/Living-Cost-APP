@@ -1,7 +1,9 @@
 import React from 'react'
 import City from './City.js'
 
-function CityDisplayer({cityData1,cityData2}) { //{city:'Oslo' , country:'Norway' , livCostData:{...} }
+function CityDisplayer({ cityData1, cityData2 }) {
+  //const [displayController, setDisplayController] = useState({});
+  //{city:'Oslo' , country:'Norway' , livCostData:{...} }
   //console.log(cityData1,'cityData1 in CityDisplayer')
  
   const prices1 = cityData1 ? cityData1.livCostData.prices : ''; 
@@ -23,3 +25,16 @@ function CityDisplayer({cityData1,cityData2}) { //{city:'Oslo' , country:'Norway
 }
 
 export default CityDisplayer
+
+
+// AllCityData = [{}, {}, {}]
+// //displayController = { skipLastOne: false, displayInFirstBlock: true }
+// displayController = { cityData1: AllCityData[index1], cityData2: AllCityData[index2] }
+// If skipLastOne:
+//    If displayInFirstBlock: cityData1 = AllCityData
+
+
+// Else:
+  
+// <City cityData1></City>
+// <City cityData2></City>

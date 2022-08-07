@@ -6,37 +6,40 @@ import CityDisplayer from './components/CityDisplayer.js'
 import clone from 'clone'
 
 function App() {  
-  const [locations, setLocations] = useState([]);
+  const [allCityData, setAllCityData] = useState([]);
  //[{city: , country: , livCostData: ,picUrlData: ,}, {city: , country: , livCostData: }, {city: , country: , livCostData: }]
 
-  const addLocation = (locationInput) => {
-    setLocations([...locations, locationInput]);
+  const addCityData = (locationInput) => {
+    //if fail to fetch loactionInput data, show error component
+    setAllCityData([...allCityData, locationInput]);
+  
   };
 
-  const displayCity = (cityName)=>{
-    const newLocations = clone(locations);
-    const index = newLocations.findIndex(location => location.city === cityName);
-    newLocations.push(newLocations.splice(index, 1)[0]);
-    setLocations(newLocations);
+  const displaySearchedCity = (cityName) => {
+    const neAllCityData = clone(allCityData);
+    const index = neAllCityData.findIndex(d => d.city === cityName);
+    neAllCityData.push(neAllCityData.splice(index, 1)[0]);
+    setAllCityData(neAllCityData);
+    return;
   }
 
-  const errorFilter = (index)=>{
-    let cityData = locations.length>index ? locations[locations.length-(index+1)] : '';
-    let n = index+1
-    while(locations.length-n>=index && locations[locations.length-n].livCostData.error){
-      n++
-      cityData = locations[locations.length-n]
-    }
-    return cityData
-  }
+  // const errorFilter = (index)=>{
+  //   let cityData = allCityData.length>index ? allCityData[allCityData.length-(index+1)] : '';
+  //   let n = index+1
+  //   while(allCityData.length-n>=index && allCityData[allCityData.length-n].livCostData.error){
+  //     n++
+  //     cityData = allCityData[allCityData.length-n]
+  //   }
+  //   return cityData
+  // }
 
   let cityData1 = errorFilter(0)
   let cityData2 = errorFilter(1)
 
   return (
     <div className="App">
-      <Form addLocation={addLocation} locations={locations}/>
-      <CityBar locations={locations} displayCity={displayCity}/>
+      <Form addCityData={addCityData} allCityData={allCityData} displaySearchedCity={displaySearchedCity } />
+      <CityBar allCityData={allCityData} displaySearchedCity={displaySearchedCity } />
       <CityDisplayer cityData1={cityData1} cityData2={cityData2}/>
     </div>
   );

@@ -9,7 +9,8 @@ export default function SearchBar({labelName, value, handleChange}) {
         name={labelName}
         placeholder={labelName}
         value={value}
-        onChange={e => handleChange(e.target.value)}>
+        onChange={e => handleChange(e.target.value)}
+        required>
       </input>
     </div>
   )
