@@ -4,43 +4,41 @@ import Form from './components/Form.js'
 import CityBar from './components/CityBar.js'
 import CityDisplayer from './components/CityDisplayer.js'
 import clone from 'clone'
+import useLocalStorage from './useLocalStorage.js'
 
-function App() {  
-  const [allCityData, setAllCityData] = useState([]);
+function App() {
+  const [allCityData, setAllCityData] = useLocalStorage('cityData',[]);
  //[{city: , country: , livCostData: ,picUrlData: ,}, {city: , country: , livCostData: }, {city: , country: , livCostData: }]
+  const cityDataPointer = i => allCityData?.length >= i && allCityData[allCityData.length - i]
+  const [cityData1, setCityData1] = useState(cityDataPointer(2))
+  const [cityData2, setCityData2] = useState(cityDataPointer(1))
+  const [renderFirstBlock, setRenderFirstBlock] = useState(false);
+  const [showErrDialog, setShowErrDialog] = useState(false);
 
-  const addCityData = (locationInput) => {
-    //if fail to fetch loactionInput data, show error component
-    setAllCityData([...allCityData, locationInput]);
-  
-  };
+  //console.log(showErrDialog);
+  const updateShowErrDialog = (payload) => setShowErrDialog(payload);
 
-  const displaySearchedCity = (cityName) => {
-    const neAllCityData = clone(allCityData);
-    const index = neAllCityData.findIndex(d => d.city === cityName);
-    neAllCityData.push(neAllCityData.splice(index, 1)[0]);
-    setAllCityData(neAllCityData);
-    return;
+  const addCityData = (newData) => {
+    newData && setAllCityData([...allCityData, newData]);
+    setRenderFirstBlock(!renderFirstBlock)
   }
 
-  // const errorFilter = (index)=>{
-  //   let cityData = allCityData.length>index ? allCityData[allCityData.length-(index+1)] : '';
-  //   let n = index+1
-  //   while(allCityData.length-n>=index && allCityData[allCityData.length-n].livCostData.error){
-  //     n++
-  //     cityData = allCityData[allCityData.length-n]
-  //   }
-  //   return cityData
-  // }
+  const displaySearchedCity = (cityName) => {
+    // if a city is searched before, move the object to the end of the allCityData array
+    const newAllCityData = clone(allCityData);
+    const index = newAllCityData.findIndex(d => d.city === cityName);
+    newAllCityData.push(newAllCityData.splice(index, 1)[0]);
+    setAllCityData(newAllCityData);
+    setRenderFirstBlock(!renderFirstBlock)
+  }
 
-  let cityData1 = errorFilter(0)
-  let cityData2 = errorFilter(1)
+  useEffect(() => { renderFirstBlock ? setCityData1(cityDataPointer(1)) : setCityData2(cityDataPointer(1)) }, [JSON.stringify(allCityData) ])
 
   return (
     <div className="App">
-      <Form addCityData={addCityData} allCityData={allCityData} displaySearchedCity={displaySearchedCity } />
+      <Form addCityData={addCityData} allCityData={allCityData} displaySearchedCity={displaySearchedCity} updateShowErrDialog={updateShowErrDialog} />
       <CityBar allCityData={allCityData} displaySearchedCity={displaySearchedCity } />
-      <CityDisplayer cityData1={cityData1} cityData2={cityData2}/>
+      <CityDisplayer cityData1={cityData1} cityData2={cityData2} updateShowErrDialog={updateShowErrDialog } />
     </div>
   );
 }
