@@ -6,20 +6,37 @@ import CityDisplayer from './components/CityDisplayer.js'
 import clone from 'clone'
 
 function App() {  
-  const [allCityData, setAllCityData] = useState([]);
+  const [allCityData, setAllCityData] = useState(JSON.parse(localStorage.getItem('cityData')) );
+  const [showErrorBlock, setShowErrorBlock] = useState(false);
  //[{city: , country: , livCostData: ,picUrlData: ,}, {city: , country: , livCostData: }, {city: , country: , livCostData: }]
-
-  const addCityData = (locationInput) => {
-    //if fail to fetch loactionInput data, show error component
-    setAllCityData([...allCityData, locationInput]);
   
-  };
+  const updateShowErrorBlock = payload => setShowErrorBlock(payload)
+
+  const addCityData = locationInput => {
+    const citiDataStorage = allCityData ? JSON.stringify([...allCityData, locationInput]) : locationInput
+    setAllCityData([...allCityData, locationInput]) 
+    localStorage.setItem('cityData', citiDataStorage)
+  }
+
+  const cityDataPointer = i => allCityData?.length >= i && allCityData[allCityData.length - i]
+  
+  const [cityData1, setCityData1] = useState(()=>cityDataPointer(1))
+  const [cityData2, setCityData2] = useState(()=>cityDataPointer(2))
+
+  console.log(cityData1,'cityData1');
+  console.log(cityData2,'cityData2');
+  console.log(allCityData,'allCityData');
+  console.log(cityDataPointer(1),'cityDataPointer(1)');
 
   const displaySearchedCity = (cityName) => {
-    const neAllCityData = clone(allCityData);
-    const index = neAllCityData.findIndex(d => d.city === cityName);
-    neAllCityData.push(neAllCityData.splice(index, 1)[0]);
-    setAllCityData(neAllCityData);
+    // if a city is searched before, move the object to the end of the allCityData array
+    const newAllCityData = clone(allCityData);
+    const index = newAllCityData.findIndex(d => d.city === cityName);
+    newAllCityData.push(newAllCityData.splice(index, 1)[0]);
+    setAllCityData(newAllCityData);
+    setCityData1(cityData2)
+    setCityData2(cityData1)
+    
     return;
   }
 
@@ -33,12 +50,9 @@ function App() {
   //   return cityData
   // }
 
-  let cityData1 = errorFilter(0)
-  let cityData2 = errorFilter(1)
-
   return (
     <div className="App">
-      <Form addCityData={addCityData} allCityData={allCityData} displaySearchedCity={displaySearchedCity } />
+      <Form addCityData={addCityData} allCityData={allCityData} displaySearchedCity={displaySearchedCity} updateShowErrorBlock={updateShowErrorBlock} />
       <CityBar allCityData={allCityData} displaySearchedCity={displaySearchedCity } />
       <CityDisplayer cityData1={cityData1} cityData2={cityData2}/>
     </div>
