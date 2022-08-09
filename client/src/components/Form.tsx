@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import SearchBar from './SearchBar.tsx';
+import SearchBar from './SearchBar';
 import { CityData } from './interfaces'
 
 interface Props {
   addCityData: Function,
-  allCityData: CityData[],
+  allCityData: CityData[] | any[],
   displaySearchedCity: Function,
   updateShowErrDialog: Function
 
@@ -20,7 +20,7 @@ function Form({ addCityData, allCityData, displaySearchedCity, updateShowErrDial
     let duplicateSearch = false
     //console.log(allCityData,'allCityData in duplicateSearch in Form');
     allCityData?.map(cityData => {
-      if (cityData.city.toLowerCase() == inputValue.city.toLowerCase()) {
+      if (cityData?.city.toLowerCase() == inputValue.city.toLowerCase()) {
         displaySearchedCity(cityData.city);
         duplicateSearch = true;
         return;
@@ -35,7 +35,7 @@ function Form({ addCityData, allCityData, displaySearchedCity, updateShowErrDial
     const picApiUrl = `http://localhost:8080/api/pictures?city=${inputValue.city}`
     const livCostData = await fetchData(livCostApiUrl)
     const picUrlData = await fetchData(picApiUrl)
-    const newData = { ...inputValue, livCostData, picUrl: picUrlData }
+    const newData = { city: livCostData?.city_name, country: livCostData?.country_name, livCostData, picUrl: picUrlData }
     livCostData.error ? updateShowErrDialog(true) : addCityData(newData)
     //livCostData ? addCityData : updateShowBlock
   }

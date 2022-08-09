@@ -1,19 +1,22 @@
 import { useState, useEffect } from 'react'
-import Form from './components/Form.tsx'
-import CityBar from './components/CityBar.tsx'
-import CityDisplayer from './components/CityDisplayer.tsx'
+import Form from './components/Form'
+import CityBar from './components/CityBar'
+import CityDisplayer from './components/CityDisplayer'
 import clone from 'clone'
-import useLocalStorage from './helpers/useLocalStorage.ts'
+import useLocalStorage from './helpers/useLocalStorage'
 import { CityData } from './components/interfaces'
 
 
 function App() {
 
-  const [allCityData, setAllCityData] = useLocalStorage('cityData', []);
+  const [allCityData, setAllCityData] = useLocalStorage<CityData[]>('cityData', []);
   //[{city: , country: , livCostData: ,picUrlData: ,}, {city: , country: , livCostData: }, {city: , country: , livCostData: }]
-  const cityDataPointer = (i: number) => allCityData?.length >= i && allCityData[allCityData.length - i]
-  const [cityData1, setCityData1] = useState(cityDataPointer(2))
-  const [cityData2, setCityData2] = useState(cityDataPointer(1))
+  const cityDataPointer = (i: number) => {
+    if (allCityData?.length >= i)
+      return allCityData[allCityData.length - i]
+  }
+  const [cityData1, setCityData1] = useState<CityData | undefined>(cityDataPointer(2))
+  const [cityData2, setCityData2] = useState<CityData| undefined>(cityDataPointer(1))
   const [renderFirstBlock, setRenderFirstBlock] = useState(false);
   const [showErrDialog, setShowErrDialog] = useState(false);
 

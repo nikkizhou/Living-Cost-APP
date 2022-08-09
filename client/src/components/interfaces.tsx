@@ -6,11 +6,11 @@ interface PriceItem {
 }
 
 export interface CityData {
-  city: string,
-  country: string,
-  livCostData: {
+  city?: string,
+  country?: string,
+  livCostData?: {
     prices: PriceItem[]
     error: string
   },
-  picUrl: string
+  picUrl?: string
 }
