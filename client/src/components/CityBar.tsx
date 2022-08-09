@@ -1,6 +1,12 @@
 import React from 'react'
+import  { CityData } from '../components/interfaces.js'
 
-export default function CityBar({ allCityData, displaySearchedCity }) {
+interface Props {
+  allCityData: CityData[],
+  displaySearchedCity:Function
+}
+
+export default function CityBar({ allCityData, displaySearchedCity }:Props) {
   return (
     <div className='cityBar'>
       {allCityData?.map((cityData, index) => {

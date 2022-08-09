@@ -24,7 +24,27 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "parserOptions": {
+      "project": "tsconfig.json"
+    },
+    "settings": {
+      "import/resolver": {
+        "node": {
+          "extensions": ".tsx"
+        },
+        "typescript": {}
+      }
+    },
+    "rules":{
+      "react/jsx-filename-extension": [
+      "warn",
+      {
+        "extensions": [
+          ".tsx"
+        ]
+      }
+    ]}
   },
   "browserslist": {
     "production": [
@@ -37,5 +57,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/clone": "^2.1.1",
+    "eslint-import-resolver-typescript": "^3.4.0"
   }
 }

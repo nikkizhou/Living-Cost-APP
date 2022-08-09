@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 import React from 'react'
 import City from './City.js'
 
@@ -22,19 +23,28 @@ function CityDisplayer({ cityData1, cityData2 }) {
       <City title={title2} pricesDisplay={pricesDisplay2} picUrl = {cityData2.picUrl}/>
     </div>
   )
+=======
+"use strict";
+exports.__esModule = true;
+var react_1 = require("react");
+var CityDisplayBlock_1 = require("./CityDisplayBlock");
+function CityDisplayer(_a) {
+    //const [displayController, setDisplayController] = useState({});
+    //{city:'Oslo' , country:'Norway' , livCostData:{...} }
+    //console.log(cityData1,'cityData1 in CityDisplayer')
+    var cityData1 = _a.cityData1, cityData2 = _a.cityData2;
+    return (<div className='cityDisplay'>
+      <CityDisplayBlock_1["default"] key={1} cityData={cityData1}/>
+      <CityDisplayBlock_1["default"] key={2} cityData={cityData2}/>
+    </div>);
+>>>>>>> Stashed changes
 }
-
-export default CityDisplayer
-
-
+exports["default"] = CityDisplayer;
 // AllCityData = [{}, {}, {}]
 // //displayController = { skipLastOne: false, displayInFirstBlock: true }
 // displayController = { cityData1: AllCityData[index1], cityData2: AllCityData[index2] }
 // If skipLastOne:
 //    If displayInFirstBlock: cityData1 = AllCityData
-
-
 // Else:
-  
 // <City cityData1></City>
 // <City cityData2></City>
