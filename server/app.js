@@ -31,7 +31,7 @@ app.get('/api/prices', async (req, res)=>{
         const result = await axios.request(options);
         res.json(result.data);
     } catch (err) {
-        console.error(`failed calling api due to: ${err.message}`);
+        res.json({ error: `failed calling api due to: ${err.message}` });
     }
 });
 
@@ -44,7 +44,7 @@ app.get('/api/pictures', async (req, res)=>{
         res.json(result.data.results[1].urls.small);
 
     } catch (err) {
-        console.error(`failed city api due to ${err.message}`);
+        res.json({ error: `failed city api due to ${err.message}` });
     }
 });
 
