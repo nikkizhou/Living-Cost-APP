@@ -1,4 +1,8 @@
+
+
 # Living-Cost-App
+## 👉[Live Deomo](https://living-cost-app-client-nikkizhou.vercel.app/)  
+
 This is a simple app to compare living costs of different cities which was finished in one day.
 
 Express is used for backend and React for front end. The main logic is to fetch data from external apis from backend then send them to front end.
