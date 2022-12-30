@@ -1,20 +1,19 @@
-import React from 'react'
+import React, { LegacyRef } from 'react'
+
 export interface SearchBarProps {
-  labelName: string,
-  value: string,
-  handleChange: Function
+  name: string,
+  reference: LegacyRef<HTMLInputElement> | null,
 }
 
-export default function SearchBar({ labelName, value, handleChange }: SearchBarProps) {
+export default function SearchBar({ name, reference }: SearchBarProps) {
+  
   return (
     <div className='search__searchBar'>
-      <label htmlFor={labelName}>{labelName}</label>
       <input
         type="text"
-        name={labelName}
-        placeholder={labelName}
-        value={value}
-        onChange={e => handleChange(e.target.value)}
+        name={name}
+        placeholder={`Enter a ${name} name`}
+        ref={reference}
         required>
       </input>
     </div>

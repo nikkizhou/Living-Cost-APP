@@ -9,7 +9,7 @@ export interface CityDataProps {
 }
 
 function CityDisplayer({ cityData1, cityData2 }: CityDataProps) {
-  console.log(cityData1);
+  console.log(cityData1,'cityData1 in CityDisplayer');
   
   return (
     <div className='cityDisplay'>

@@ -1,26 +1,27 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import SearchBar from './SearchBar';
 import { CityData } from './interfaces'
+import AlertDialog from '../components/AlertDialog'
+import {baseUrl} from '../config'
 
 interface Props {
   addCityData: Function,
   allCityData: CityData[] | any[],
   displaySearchedCity: Function,
-  updateShowErrDialog: Function
-
+  updateShowErrDialog: Function,
+  showErrDialog: boolean,
 }
-function Form({ addCityData, allCityData, displaySearchedCity, updateShowErrDialog }: Props) {
-  const [inputValue, setinputValue] = useState({ city: '', country: '' });
-  const updateCity = (cityName: string) => setinputValue({ ...inputValue, city: cityName })
-  const updateCountry = (countryName: string) => setinputValue({ ...inputValue, country: countryName })
+
+function Form({ addCityData, allCityData, displaySearchedCity, updateShowErrDialog, showErrDialog }: Props) {
+  const cityValue = useRef<HTMLInputElement>(null);
+  const countryValue = useRef<HTMLInputElement>(null);
 
   const fetchData = async (url: string) => fetch(url).then(res => res.json());
 
   const duplicateSearch = () => {
     let duplicateSearch = false
-    //console.log(allCityData,'allCityData in duplicateSearch in Form');
     allCityData?.map(cityData => {
-      if (cityData?.city.toLowerCase() == inputValue.city.toLowerCase()) {
+      if (cityData?.city.toLowerCase() == cityValue.current?.value.toLowerCase()) {
         displaySearchedCity(cityData.city);
         duplicateSearch = true;
         return;
@@ -30,31 +31,44 @@ function Form({ addCityData, allCityData, displaySearchedCity, updateShowErrDial
   }
 
   const fetchAndAddData = async () => {
-    //if fetchLivCostData fails, show reminding block
-    const livCostApiUrl = `http://localhost:8080/api/prices?city_name=${inputValue.city}&country_name=${inputValue.country}`
-    const picApiUrl = `http://localhost:8080/api/pictures?city=${inputValue.city}`
+    const [city, country] = [cityValue?.current?.value, countryValue?.current?.value]
+    
+    const livCostApiUrl = `${baseUrl}/api/prices?city_name=${city}&country_name=${country}`
+    const picApiUrl = `${baseUrl}/api/pictures?city=${city}`
     const livCostData = await fetchData(livCostApiUrl)
-    const picUrlData = await fetchData(picApiUrl)
-    const newData = { city: livCostData?.city_name, country: livCostData?.country_name, livCostData, picUrl: picUrlData }
+    let picUrlData = await fetchData(picApiUrl)
+    
+    const newData = {
+      city: livCostData?.city_name,
+      country: livCostData?.country_name,
+      livCostData,
+      picUrl: picUrlData
+    }
+    
+    console.log(newData,'newData line 46 form');
+    
+    //if fetchLivCostData fails, show reminding block
     livCostData.error ? updateShowErrDialog(true) : addCityData(newData)
-    //livCostData ? addCityData : updateShowBlock
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    if (!duplicateSearch()) fetchAndAddData()
-    setinputValue({ city: '', country: '' });
+    !duplicateSearch() && await fetchAndAddData()
   }
+  
 
   return (
-    <div className="form">
-      <h1 className="form__heading">Cost of Living Searcher</h1>
-      <form className="form__search" onSubmit={(e) => handleSubmit(e)}>
-        <SearchBar labelName='Country' value={inputValue.country} handleChange={updateCountry} />
-        <SearchBar labelName='City' value={inputValue.city} handleChange={updateCity} />
-        <button type='submit' className="search__add-btn" >Search</button>
-      </form>
-    </div>
+    <>
+      {showErrDialog && <AlertDialog cityname={ cityValue.current!.value} updateShowErrDialog={updateShowErrDialog } />}
+      <div className="form">
+        <h1 className="form__heading">Cost of Living Searcher</h1>
+        <form className="form__search" onSubmit={(e) => handleSubmit(e)}>
+          <SearchBar name='country' reference={countryValue} />
+          <SearchBar name='city' reference={cityValue} />
+          <button type='submit' className="search__add-btn" >Search</button>
+        </form>
+      </div>
+    </>
   )
 }
 
