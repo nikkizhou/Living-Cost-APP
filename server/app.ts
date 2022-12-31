@@ -17,7 +17,7 @@ app.get('/api/prices', async (req, res)=>{
     const city = req.query.city_name;
     const country = req.query.country_name;
 
-    const options =  {
+    const options:any =  {
         method: 'GET',
         url: "https://cost-of-living-and-prices.p.rapidapi.com/prices",
         params: {city_name: city, country_name: country},
@@ -30,7 +30,7 @@ app.get('/api/prices', async (req, res)=>{
     try {
         const result = await axios.request(options);
         res.json(result.data);
-    } catch (err) {
+    } catch (err:any) {
         res.json({ error: `failed calling api due to: ${err.message}` });
     }
 });
@@ -43,13 +43,12 @@ app.get('/api/pictures', async (req, res)=>{
         result = await axios.get(url);
         res.json(result.data.results[1].urls.small);
 
-    } catch (err) {
+    } catch (err:any) {
         res.json({ error: `failed city api due to ${err.message}` });
     }
 });
 
 
-app.listen(PORT, (error) =>{
-    if(!error) console.log("App is listening on port "+ PORT)
-    else console.log("Error occurred, server can't start", error);
+app.listen(PORT, () =>{
+    console.log("App is listening on port "+ PORT)
 });
