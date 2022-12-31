@@ -34,7 +34,7 @@ app.get('/api/prices', async (req, res)=>{
         res.json({ error: `failed calling api due to: ${err.message}` });
     }
 });
-
+//
 app.get('/api/pictures', async (req, res)=>{
     const city = req.query.city;
     let result;
