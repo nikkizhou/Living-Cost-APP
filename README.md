@@ -21,4 +21,7 @@ It was somehow problematical to manipulate the data after I fetched it.
 # Future refactoring:
 1. Would be great to be able to add the data fetched from api into database, then get the data from database in backend, then send to front end.
 2. Would be great to add the feature where users can decide what kind of living costs to be shown on the page.
-3. Would be great to get user's current location then show the living cost of that city as default.
+3. Would be great to get user's current location then show the living cost of that city as default.  
+
+# DataFlow
+<img src="https://github.com/nikkizhou/Living-Cost-App/blob/main/'datastructure'.jpeg" alt="dataFlow" style="height:500px; width:700px;"/>
