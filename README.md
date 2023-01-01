@@ -24,4 +24,4 @@ It was somehow problematical to manipulate the data after I fetched it.
 3. Would be great to get user's current location then show the living cost of that city as default.  
 
 # DataFlow
-<img src="https://github.com/nikkizhou/Living-Cost-App/blob/main/'datastructure'.jpeg" alt="dataFlow" style="height:500px; width:700px;"/>
+<img src="https://github.com/nikkizhou/Living-Cost-App/blob/main/structure%26dataFlow.jpeg" alt="dataFlow" style="height:500px; width:700px;"/>
