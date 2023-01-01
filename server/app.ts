@@ -3,7 +3,6 @@ import express from 'express'
 import axios from 'axios'
 import cors from 'cors'
 
-
 const app = express();
 const PORT = 8080;
 const API_KEY = process.env.API_KEY;
@@ -34,7 +33,7 @@ app.get('/api/prices', async (req, res)=>{
         res.json({ error: `failed calling api due to: ${err.message}` });
     }
 });
-//////
+
 app.get('/api/pictures', async (req, res)=>{
     const city = req.query.city;
     let result;
