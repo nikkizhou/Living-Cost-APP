@@ -1,5 +1,6 @@
 {
   "name": "client",
+  "homepage": "https://living-cost-app-client.vercel.app",
   "version": "0.1.0",
   "private": true,
   "type": "module",

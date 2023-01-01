@@ -2,7 +2,6 @@ import { useState, useRef } from 'react'
 import SearchBar from './SearchBar';
 import { CityData } from './interfaces'
 import AlertDialog from '../components/AlertDialog'
-import {baseUrl} from '../config'
 
 interface Props {
   addCityData: Function,
@@ -32,9 +31,9 @@ function Form({ addCityData, allCityData, displaySearchedCity, updateShowErrDial
 
   const fetchAndAddData = async () => {
     const [city, country] = [cityValue?.current?.value, countryValue?.current?.value]
-    
-    const livCostApiUrl = `${baseUrl}/api/prices?city_name=${city}&country_name=${country}`
-    const picApiUrl = `${baseUrl}/api/pictures?city=${city}`
+
+    const livCostApiUrl = `/api/prices?city_name=${city}&country_name=${country}`
+    const picApiUrl = `/api/pictures?city=${city}`
     const livCostData = await fetchData(livCostApiUrl)
     let picUrlData = await fetchData(picApiUrl)
     
@@ -45,7 +44,6 @@ function Form({ addCityData, allCityData, displaySearchedCity, updateShowErrDial
       picUrl: picUrlData
     }
     
-    console.log(newData,'newData line 46 form');
     
     //if fetchLivCostData fails, show reminding block
     livCostData.error ? updateShowErrDialog(true) : addCityData(newData)
